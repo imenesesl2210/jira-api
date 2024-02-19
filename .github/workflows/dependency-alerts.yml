@@ -1,0 +1,46 @@
+name: Create Jira Issue for Dependency Alerts
+
+on:
+  pull_request:
+    branches:
+      - "dependabot/**"
+
+env:
+  PARENT_KEY: WORK-5159
+  PROJECT_ID: 13243
+  JIRA_EMAIL: luis.meneses@varsitytutors.com
+  JIRA_API_TOKEN: ATATT3xFfGF0_neZld5pUL5SsjQAmCqBzu-UzGh-1JZYRB691CaJ-W6WyMgVQXGpoAZ8rm4_HYXZ0Xz_ZXO5KYh-FkR902e-VdvVszdIS3CfgUhxCDyFH1OjiVrouac87AovcWojuXdtNif_w4_2txLTg4mn55nUI0x2U-lL_99ekW1yPVYfsZE=B1455881
+
+jobs:
+  create-jira-issue:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Update CURL
+        run: sudo apt-get update && sudo apt-get install -y curl
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Create Jira Issue
+        run: |
+          curl --verbose --request POST \
+            --url 'https://your-domain.atlassian.net/rest/api/2/issue' \
+            --user '${{ env.JIRA_EMAIL }}:${{ env.JIRA_API_TOKEN }}' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{
+              "fields": {
+                "summary": "[Dependency Update] ${{ github.head_ref }}",
+                "description": "A dependency update has been identified by Dependabot, requiring attention. PR Link: ${{ github.event.pull_request.html_url }}",
+                "issuetype": {
+                    "id": "10001"
+                },
+                "parent": {
+                    "key":${{ env.PARENT_KEY }}
+                },
+                "project": {
+                    "id": "${{ env.PROJECT_ID }}"
+                },
+              },
+            }'
