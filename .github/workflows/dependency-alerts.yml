@@ -38,7 +38,7 @@ jobs:
                   "key": "${{ env.PARENT_KEY }}"
               },
               "project": {
-                  "id": "${{ env.PROJECT_ID }}"
+                  "key": "WORK"
               }
             }
           }'
