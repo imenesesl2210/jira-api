@@ -23,7 +23,7 @@ jobs:
       - name: Create Jira Issue
         run: |
           curl --verbose --request POST \
-          --url 'https://your-domain.atlassian.net/rest/api/2/issue' \
+          --url 'https://varsity.atlassian.net/rest/api/2/issue' \
           --user '${{ env.JIRA_EMAIL }}:${{ env.JIRA_API_TOKEN }}' \
           --header 'Accept: application/json' \
           --header 'Content-Type: application/json' \
