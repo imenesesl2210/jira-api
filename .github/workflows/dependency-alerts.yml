@@ -2,8 +2,9 @@ name: Create Jira Issue for Dependency Alerts
 
 on:
   pull_request:
+    types: [opened]
     branches:
-      - "dependabot/**"
+      - 'dependabot/*'
 
 env:
   PARENT_KEY: WORK-5159
